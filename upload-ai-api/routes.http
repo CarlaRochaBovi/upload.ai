@@ -1,0 +1,38 @@
+# @name get-prompts
+
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="teste.mp3"
+Content-Type: audio/mpeg
+
+< ./teste.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/53b81d6a-7f33-45df-b6ea-b2a553635da8/transcription
+Content-Type: application/json
+
+{
+  "prompt": "Unity"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "53b81d6a-7f33-45df-b6ea-b2a553635da8",
+  "temperature": 0.5,
+  "prompt": "gere um resumo do video: '''{transcription}'''"
+}
